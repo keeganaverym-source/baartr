@@ -1,1 +1,84 @@
-<!-- Placeholder for how-it-works.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works - Bartr</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="bg-gray-50">
+  <header class="bg-white/80 backdrop-blur-xl sticky top-0 z-50 border-b border-gray-100">
+    <div class="max-w-7xl mx-auto px-4 py-3">
+      <div class="flex items-center justify-between gap-4">
+        <div class="flex items-center gap-8">
+          <a href="index.html" class="flex items-center gap-2">
+            <div class="w-10 h-10 bg-gradient-to-br from-[#1A8B8B] to-[#2DD4BF] rounded-xl flex items-center justify-center">
+              <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
+              </svg>
+            </div>
+            <span class="text-2xl font-black text-gray-900">BARTR</span>
+          </a>
+        </div>
+        
+        <div class="flex items-center gap-3">
+          <button onclick="toggleMenu()" class="icon-btn">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <section class="py-20">
+    <div class="max-w-4xl mx-auto px-4">
+      <h1 class="text-5xl font-black text-gray-900 mb-6 text-center">How Bartr Works</h1>
+      <p class="text-xl text-gray-600 text-center mb-16">Trading made simple in three easy steps</p>
+      
+      <div class="space-y-16">
+        <div class="flex items-start gap-8">
+          <div class="w-20 h-20 bg-gradient-to-br from-[#1A8B8B] to-[#2DD4BF] rounded-2xl flex items-center justify-center flex-shrink-0">
+            <span class="text-3xl font-black text-white">1</span>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">Create Your Listing</h3>
+            <p class="text-lg text-gray-600">Post what you have to trade and what you're looking for. Add photos, descriptions, and set your preferences.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-8">
+          <div class="w-20 h-20 bg-gradient-to-br from-purple-500 to-pink-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+            <span class="text-3xl font-black text-white">2</span>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">Find Your Match</h3>
+            <p class="text-lg text-gray-600">Browse listings, use our AI-powered matching, or try the random match feature to discover unexpected trades.</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start gap-8">
+          <div class="w-20 h-20 bg-gradient-to-br from-orange-500 to-red-500 rounded-2xl flex items-center justify-center flex-shrink-0">
+            <span class="text-3xl font-black text-white">3</span>
+          </div>
+          <div>
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">Complete the Trade</h3>
+            <p class="text-lg text-gray-600">Message securely, arrange the exchange, and complete your trade. Rate your experience to build trust in the community.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hamburger Menu (will be injected by JS) -->
+  <div id="hamburger-menu-container"></div>
+
+  <script src="shared.js"></script>
+</body>
+</html>
+
