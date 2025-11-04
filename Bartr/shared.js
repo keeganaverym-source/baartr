@@ -1,9 +1,32 @@
-// Hamburger Menu Toggle
+/* shared.js — Bartr core shared behaviors
+   - Active nav highlighting
+   - Notifications panel
+   - Hamburger
+   - Friend mock profiles modal
+   - Escape/Click-away handling
+*/
+
+// ========= Active Nav =========
+(function activateNav() {
+  try {
+    const here = location.pathname.split('/').pop() || 'index.html';
+    const navLinks = document.querySelectorAll('header .nav-link, .hamburger-nav .hamburger-link');
+    navLinks.forEach(a => {
+      // strip any prior state
+      a.classList.remove('active', 'nav-link-featured');
+      // normalize href target
+      const href = (a.getAttribute('href') || '').split('/').pop();
+      if (href && href === here) {
+        a.classList.add('active', 'nav-link-featured');
+      }
+    });
+  } catch (_) {}
+})();
+
+// ========= Hamburger =========
 function toggleMenu() {
   let menu = document.getElementById('hamburger-menu');
-  
   if (!menu) {
-    // Create menu if it doesn't exist
     const menuHTML = `
       <div id="hamburger-menu" class="hamburger-menu active">
         <div class="hamburger-overlay" onclick="toggleMenu()"></div>
@@ -17,57 +40,30 @@ function toggleMenu() {
             </button>
           </div>
           <nav class="hamburger-nav">
-            <a href="index.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-              </svg>
-              <span>Home</span>
-            </a>
-            <a href="browse.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-              </svg>
-              <span>Trade</span>
-            </a>
-            <a href="rideshare.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
-              </svg>
-              <span>Rideshare</span>
-            </a>
-            <a href="community.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
-              </svg>
-              <span>Community</span>
-            </a>
+            <a href="index.html" class="hamburger-link">Home</a>
+            <a href="browse.html" class="hamburger-link">Trade</a>
+            <a href="rideshare.html" class="hamburger-link">Rideshare</a>
+            <a href="community.html" class="hamburger-link">Community</a>
             <div class="border-t border-gray-200 my-4"></div>
-            <a href="how-it-works.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-              </svg>
-              <span>How It Works</span>
-            </a>
-            <a href="about.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
-              </svg>
-              <span>About</span>
-            </a>
-            <a href="contact.html" class="hamburger-link">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-              </svg>
-              <span>Contact</span>
-            </a>
+            <a href="how-it-works.html" class="hamburger-link">How It Works</a>
+            <a href="about.html" class="hamburger-link">About</a>
+            <a href="contact.html" class="hamburger-link">Contact</a>
           </nav>
         </div>
       </div>
     `;
     document.body.insertAdjacentHTML('beforeend', menuHTML);
     document.body.style.overflow = 'hidden';
+    // run highlighter again for the menu
+    (function rehighlight() {
+      const here = location.pathname.split('/').pop() || 'index.html';
+      document.querySelectorAll('#hamburger-menu .hamburger-link').forEach(a => {
+        a.classList.remove('active', 'nav-link-featured');
+        const href = (a.getAttribute('href') || '').split('/').pop();
+        if (href === here) a.classList.add('active', 'nav-link-featured');
+      });
+    })();
   } else {
-    // Toggle existing menu
     if (menu.classList.contains('active')) {
       menu.classList.remove('active');
       document.body.style.overflow = 'auto';
@@ -79,12 +75,10 @@ function toggleMenu() {
   }
 }
 
-// Notifications Toggle
+// ========= Notifications =========
 function toggleNotifications() {
   let panel = document.getElementById('notifications-panel');
-  
   if (!panel) {
-    // Create panel if it doesn't exist
     const panelHTML = `
       <div id="notifications-panel" class="notifications-panel active">
         <div class="notifications-header">
@@ -97,54 +91,19 @@ function toggleNotifications() {
         </div>
         <div class="notifications-body">
           <div class="notification-item unread" onclick="handleNotificationClick(this)">
-            <div class="notification-icon bg-blue-100 text-blue-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"></path>
-              </svg>
-            </div>
+            <div class="notification-icon bg-blue-100 text-blue-600">🔁</div>
             <div class="flex-1">
               <p class="text-sm font-semibold text-gray-900">New trade offer received</p>
               <p class="text-xs text-gray-600">Sarah Kim wants to trade for your MacBook Pro</p>
               <p class="text-xs text-gray-500 mt-1">5 minutes ago</p>
             </div>
           </div>
-          
           <div class="notification-item unread" onclick="handleNotificationClick(this)">
-            <div class="notification-icon bg-green-100 text-green-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
-              </svg>
-            </div>
+            <div class="notification-icon bg-green-100 text-green-600">👥</div>
             <div class="flex-1">
               <p class="text-sm font-semibold text-gray-900">New friend request</p>
               <p class="text-xs text-gray-600">Alex Chen sent you a friend request</p>
               <p class="text-xs text-gray-500 mt-1">1 hour ago</p>
-            </div>
-          </div>
-          
-          <div class="notification-item" onclick="handleNotificationClick(this)">
-            <div class="notification-icon bg-purple-100 text-purple-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-semibold text-gray-900">New message</p>
-              <p class="text-xs text-gray-600">Mike Johnson: "Is the camera still available?"</p>
-              <p class="text-xs text-gray-500 mt-1">3 hours ago</p>
-            </div>
-          </div>
-          
-          <div class="notification-item" onclick="handleNotificationClick(this)">
-            <div class="notification-icon bg-yellow-100 text-yellow-600">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"></path>
-              </svg>
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-semibold text-gray-900">Random match found!</p>
-              <p class="text-xs text-gray-600">We found a perfect match for your vintage camera</p>
-              <p class="text-xs text-gray-500 mt-1">Yesterday</p>
             </div>
           </div>
         </div>
@@ -155,103 +114,126 @@ function toggleNotifications() {
     `;
     document.body.insertAdjacentHTML('beforeend', panelHTML);
   } else {
-    // Toggle existing panel
     panel.classList.toggle('active');
   }
 }
-
-// Handle notification click
-function handleNotificationClick(element) {
-  element.classList.remove('unread');
-  updateNotificationBadge();
-}
-
-// Mark all notifications as read
-function markAllRead() {
-  document.querySelectorAll('.notification-item.unread').forEach(item => {
-    item.classList.remove('unread');
-  });
-  updateNotificationBadge();
-}
-
-// Update notification badge count
-function updateNotificationBadge() {
-  const unreadCount = document.querySelectorAll('.notification-item.unread').length;
-  const badges = document.querySelectorAll('.notification-badge');
-  
-  badges.forEach(badge => {
-    if (unreadCount > 0) {
-      badge.textContent = unreadCount;
-      badge.style.display = 'flex';
-    } else {
-      badge.style.display = 'none';
-    }
+function handleNotificationClick(el){ el.classList.remove('unread'); updateNotificationBadge(); }
+function markAllRead(){ document.querySelectorAll('.notification-item.unread').forEach(n=>n.classList.remove('unread')); updateNotificationBadge(); }
+function updateNotificationBadge(){
+  const unread = document.querySelectorAll('.notification-item.unread').length;
+  document.querySelectorAll('.notification-badge').forEach(b=>{
+    if (unread>0){ b.textContent = unread; b.style.display='flex'; } else { b.style.display='none'; }
   });
 }
 
-// Profile Modal
-function openProfileModal() {
-  if (typeof window.openProfileModalMain === 'function') {
-    window.openProfileModalMain();
-  } else {
-    if (typeof openVerificationModal === 'function') {
-      openVerificationModal();
-    } else {
-      alert('Join Bartr to start trading!');
-    }
+// ========= Friend Profiles (mock) =========
+const MOCK_PROFILES = {
+  "Alex Chen": {
+    avatar: "https://i.pravatar.cc/150?img=33",
+    bio: "Photographer & cyclist. Trading lenses, camera bags, and bike tune-ups.",
+    skills: ["Photography", "Editing", "Road Bike Maintenance"],
+    rating: 4.8,
+    items: ["Sony 50mm f/1.8", "Peak Design Sling", "Giro Helmet (M)"]
+  },
+  "Sarah Kim": {
+    avatar: "https://i.pravatar.cc/150?img=45",
+    bio: "Designer & weekend guitarist. Trading poster design and pedals.",
+    skills: ["Graphic Design", "Illustration", "Figma"],
+    rating: 4.9,
+    items: ["MXR Carbon Copy", "Fender Strap", "Custom Posters (A2)"]
+  },
+  "Mike Johnson": {
+    avatar: "https://i.pravatar.cc/150?img=22",
+    bio: "Barista + hobby coder. Trading latte art workshops and RasPi kits.",
+    skills: ["Latte Art", "Node.js", "Raspberry Pi"],
+    rating: 4.7,
+    items: ["RasPi 4 Kit", "Arduino Nano", "Coffee Workshop (1hr)"]
   }
+};
+
+function openMockProfile(name){
+  const data = MOCK_PROFILES[name]; if (!data) return alert("Profile not found.");
+  const html = `
+    <div id="mock-profile-modal" class="modal-modern active">
+      <div class="modal-overlay" onclick="closeMockProfile()"></div>
+      <div class="modal-container">
+        <div class="modal-header-modern">
+          <div class="flex items-center gap-3">
+            <img src="${data.avatar}" alt="${name}" class="w-12 h-12 rounded-xl border-2 border-gray-100 object-cover"/>
+            <div>
+              <h3 class="text-2xl font-black text-gray-900">${name}</h3>
+              <div class="text-sm text-gray-600">⭐ ${data.rating.toFixed(1)} • Verified</div>
+            </div>
+          </div>
+          <button onclick="closeMockProfile()" class="close-btn">✕</button>
+        </div>
+        <div class="modal-body-modern">
+          <p class="text-gray-700 mb-4">${data.bio}</p>
+          <div class="mb-6">
+            <h4 class="font-bold text-gray-900 mb-2">Skills</h4>
+            <div class="flex flex-wrap gap-2">
+              ${data.skills.map(s=>`<span class="skill-tag">${s}</span>`).join('')}
+            </div>
+          </div>
+          <div>
+            <h4 class="font-bold text-gray-900 mb-2">Items</h4>
+            <ul class="list-disc ml-6 text-gray-700">
+              ${data.items.map(i=>`<li>${i}</li>`).join('')}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  document.body.insertAdjacentHTML('beforeend', html);
+  document.body.style.overflow = 'hidden';
 }
 
-// Friend Request
-function addFriend(userName) {
-  const toast = document.getElementById('friend-toast');
-  if (toast) {
-    const nameElement = document.getElementById('friend-name-toast');
-    if (nameElement) {
-      nameElement.textContent = `You and ${userName} are now connected!`;
-    }
-    toast.classList.add('show');
-    
-    setTimeout(() => {
-      toast.classList.remove('show');
-    }, 3000);
-  } else {
-    alert(`Friend request sent to ${userName}!`);
-  }
+function closeMockProfile(){
+  const m = document.getElementById('mock-profile-modal');
+  if (m) { m.remove(); document.body.style.overflow = 'auto'; }
 }
 
-// Trade Modal
-function openTradeModal(itemTitle) {
-  alert(`Opening trade modal for: ${itemTitle}`);
-}
+// make any .friend-avatar-grid clickable (index/profile modal grids)
+document.addEventListener('click', (e)=>{
+  const tile = e.target.closest('.friend-avatar-grid');
+  if (!tile) return;
+  const name = tile.getAttribute('data-name') || tile.getAttribute('title') || tile.alt || tile.innerText || "Alex Chen";
+  if (MOCK_PROFILES[name]) openMockProfile(name);
+});
 
-// Keyboard shortcuts
-document.addEventListener('keydown', function(e) {
+// ========= Global ESC/Click-away =========
+document.addEventListener('keydown', (e)=>{
   if (e.key === 'Escape') {
     const menu = document.getElementById('hamburger-menu');
-    const notifications = document.getElementById('notifications-panel');
-    
-    if (menu && menu.classList.contains('active')) {
-      toggleMenu();
-    }
-    if (notifications && notifications.classList.contains('active')) {
-      toggleNotifications();
-    }
+    const notif = document.getElementById('notifications-panel');
+    if (menu?.classList.contains('active')) toggleMenu();
+    if (notif?.classList.contains('active')) toggleNotifications();
+    closeMockProfile();
   }
 });
 
-// Click outside to close notifications
-document.addEventListener('click', function(e) {
-  const notifications = document.getElementById('notifications-panel');
-  const notificationBtn = e.target.closest('[onclick*="toggleNotifications"]');
-  
-  if (notifications && notifications.classList.contains('active') && !notificationBtn && !notifications.contains(e.target)) {
+document.addEventListener('click', (e)=>{
+  const notif = document.getElementById('notifications-panel');
+  const btn = e.target.closest('[onclick*="toggleNotifications"]');
+  if (notif && notif.classList.contains('active') && !btn && !notif.contains(e.target)) {
     toggleNotifications();
   }
 });
 
-// Initialize on page load
-document.addEventListener('DOMContentLoaded', function() {
-  console.log('Bartr shared scripts loaded successfully!');
+// Init
+document.addEventListener('DOMContentLoaded', ()=> {
   updateNotificationBadge();
+  // attach names to demo avatars if none present
+  document.querySelectorAll('.friend-avatar-grid').forEach((el,i)=>{
+    if (!el.getAttribute('data-name')) {
+      const candidates = Object.keys(MOCK_PROFILES);
+      el.setAttribute('data-name', candidates[i % candidates.length]);
+    }
+  });
 });
+
+// expose for inline handlers used in HTML
+window.toggleMenu = toggleMenu;
+window.toggleNotifications = toggleNotifications;
+window.handleNotificationClick = handleNotificationClick;
+window.markAllRead = markAllRead;
