@@ -1,0 +1,23 @@
+// /api/valuation.js — Vercel serverless function
+export default async function handler(req, res) {
+  const q = (req.query.query || '').toString().trim();
+
+  // TODO: replace this block with real marketplace API lookups (eBay, etc.)
+  const baselines = {
+    'Fender Telecaster (used)': 650,
+    'iPad Pro 11” 2018': 380,
+    'Canon M50 Body': 320
+  };
+  const estimate = baselines[q] ?? (200 + Math.random()*600);
+  const suggestions = [
+    "Studio Headphones", "GoPro Hero 9", "Analog Mixer", "DJ Controller (entry)",
+    "Gaming Monitor 1080p", "Camp Gear Set", "Bike Tune-Up + Parts"
+  ].sort(()=>0.5-Math.random()).slice(0,3);
+
+  res.setHeader('Cache-Control', 'no-store');
+  return res.status(200).json({
+    estimate,
+    confidence: 0.7,
+    suggestions
+  });
+}
